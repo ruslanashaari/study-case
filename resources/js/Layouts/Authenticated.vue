@@ -27,8 +27,13 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                <BreezeNavLink :href="route('employees.index')" :active="route().current('employees.index')">
+                                    Employees
+                                </BreezeNavLink>
+                            </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                                <BreezeNavLink :href="route('addresses.index')" :active="route().current('addresses.index')">
+                                    Addresses
                                 </BreezeNavLink>
                             </div>
                         </div>
@@ -97,7 +102,9 @@ const showingNavigationDropdown = ref(false);
             <!-- Page Heading -->
             <header class="bg-white shadow" v-if="$slots.header">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" />
+                    <flashed-message>
+                        <slot name="header" />
+                    </flashed-message>
                 </div>
             </header>
 
@@ -108,3 +115,13 @@ const showingNavigationDropdown = ref(false);
         </div>
     </div>
 </template>
+
+<script>
+import FlashedMessage from '@/Layouts/FlashedMessage'
+
+export default {
+  components: {
+    FlashedMessage
+  }
+}
+</script>
