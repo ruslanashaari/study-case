@@ -10,6 +10,7 @@ use App\Models\Employee;
 use App\Models\Address;
 use App\Models\User;
 use Tests\TestCase;
+use Carbon\Carbon;
 
 class EmployeeDeleteTest extends TestCase
 {
@@ -53,6 +54,8 @@ class EmployeeDeleteTest extends TestCase
                 'success' => $employee_name . ' record deleted.'
             ]
         );
+
+        $employee['deleted_at'] = Carbon::now()->toDateTimeString();
 
         $this->assertSoftDeleted(
             'employees', $employee
