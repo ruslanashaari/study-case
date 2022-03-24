@@ -8,8 +8,9 @@ use App\Http\Resources\AddressNameResource;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use Illuminate\Support\Facades\Redirect;
-use App\Actions\StoreEmployeeAction;
 use App\Actions\UpdateEmployeeAction;
+use App\Actions\DeleteEmployeeAction;
+use App\Actions\StoreEmployeeAction;
 use Illuminate\Http\Request;
 use App\Models\EmployeeRole;
 use App\Models\Employee;
@@ -125,14 +126,19 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Employee $employee)
+    public function destroy(Employee $employee, DeleteEmployeeAction $action)
     {
-        $employee_name = $employee->full_name;
-        $response = $employee->delete();
+        try {
+            DB::beginTransaction();
 
-        if (!$response) 
-        {
-            return redirect()->route('employees.index')->with('danger', 'Delete process failed');
+            $employee_name = $employee->full_name;
+
+            $action->handle($employee);
+            DB::commit();
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('employees.index')
+                        ->withErrors($e->getMessage());
         }
 
         return redirect()->route('employees.index')->with('success', $employee_name . ' record deleted.');   
