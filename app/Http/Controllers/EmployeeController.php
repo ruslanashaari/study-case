@@ -8,6 +8,7 @@ use App\Http\Resources\AddressNameResource;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use Illuminate\Support\Facades\Redirect;
+use App\Actions\StoreEmployeeAction;
 use Illuminate\Http\Request;
 use App\Models\EmployeeRole;
 use App\Models\Employee;
@@ -48,11 +49,15 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(StoreEmployeeRequest $request, StoreEmployeeAction $action)
     {
-        $employee = Employee::create($request->validated());
+        $response = $action->handle($request->validated());
 
-        return redirect()->route('employees.show', $employee->id)->with('success', 'Employee created.');
+        if ($response['status_code'] === config('http_status.success')) {
+            return redirect()->route('employees.show', $response['data']['id'])->with('success', $response['message']);
+        }
+
+        return redirect()->route('employees.show', $employee->id)->withErrors($response['message']);
     }
 
     /**
