@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,8 +25,41 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('employees', [EmployeeController::class, 'index'])
+    ->name('employees.index')
+    ->middleware('auth', 'verified');
+
+Route::get('employees/create', [EmployeeController::class, 'create'])
+    ->name('employees.create')
+    ->middleware('auth', 'verified');
+
+Route::post('employees', [EmployeeController::class, 'store'])
+    ->name('employees.store')
+    ->middleware('auth', 'verified');
+
+Route::get('employees/{employee}/edit', [EmployeeController::class, 'edit'])
+    ->name('employees.edit')
+    ->middleware('auth', 'verified');
+
+Route::get('employees/{employee}', [EmployeeController::class, 'show'])
+    ->name('employees.show')
+    ->middleware('auth', 'verified');
+
+Route::put('employees/{employee}', [EmployeeController::class, 'update'])
+    ->name('employees.update')
+    ->middleware('auth', 'verified');
+
+Route::delete('employees/{employee}', [EmployeeController::class, 'destroy'])
+    ->name('employees.destroy')
+    ->middleware('auth', 'verified');
+
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    return redirect()->route('employees.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('addresses', [EmployeeController::class, 'index'])
+    ->name('addresses.index')
+    ->middleware('auth', 'verified');
+
 
 require __DIR__.'/auth.php';
