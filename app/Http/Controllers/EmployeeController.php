@@ -9,6 +9,7 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use Illuminate\Support\Facades\Redirect;
 use App\Actions\StoreEmployeeAction;
+use App\Actions\UpdateEmployeeAction;
 use Illuminate\Http\Request;
 use App\Models\EmployeeRole;
 use App\Models\Employee;
@@ -101,9 +102,19 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee, UpdateEmployeeAction $action)
     {
-        $response = $employee->update($request->validated());
+        try {
+            DB::beginTransaction();
+
+            $action->handle($request->validated(), $employee);
+
+            DB::commit();
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('employees.show', $employee->id)
+                        ->withErrors($e->getMessage());
+        }
 
         return redirect()->route('employees.show', $employee->id)->with('success', 'Employee record updated.');
     }
