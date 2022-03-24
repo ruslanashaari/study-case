@@ -27,8 +27,18 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = EmployeeResource::collection(Employee::with('address')->select('id', 'code', 'first_name', 'last_name', 'address_id', 'created_at', 'deleted_at')->orderBy('id', 'desc')->get());
-        $addresses = AddressNameResource::collection(Address::all());
+        try {
+
+            $employees = EmployeeResource::collection(Employee::with('address')->select('id', 'code', 'first_name', 'last_name', 'address_id', 'created_at', 'deleted_at')->orderBy('id', 'desc')->get());
+            $addresses = AddressNameResource::collection(Address::all());
+            
+        } catch (Exception $e) {
+            return inertia('Employees/Index', 
+                [
+                    $employees => [],
+                    $addresses => []
+                ])->withErrors($e->getMessage());
+        }
 
         return inertia('Employees/Index', compact('employees', 'addresses'));
     }
