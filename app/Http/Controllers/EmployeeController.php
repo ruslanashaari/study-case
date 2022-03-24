@@ -14,6 +14,7 @@ use App\Models\EmployeeRole;
 use App\Models\Employee;
 use App\Models\Address;
 use Inertia\Inertia;
+use DB;
 
 class EmployeeController extends Controller
 {
@@ -51,13 +52,20 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request, StoreEmployeeAction $action)
     {
-        $response = $action->handle($request->validated());
+        try {
+            DB::beginTransaction();
 
-        if ($response['status_code'] === config('http_status.success')) {
-            return redirect()->route('employees.show', $response['data']['id'])->with('success', $response['message']);
+            $employee = $action->handle($request->validated());   
+
+            DB::commit();
+
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('employees.show', $employee->id)
+                        ->withErrors($e->getMessage());            
         }
 
-        return redirect()->route('employees.show', $employee->id)->withErrors($response['message']);
+        return redirect()->route('employees.show', $employee->id)->with('success', 'Employee created.');
     }
 
     /**
