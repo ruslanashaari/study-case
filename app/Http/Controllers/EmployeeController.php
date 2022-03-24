@@ -27,8 +27,18 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = EmployeeResource::collection(Employee::with('address')->select('id', 'code', 'first_name', 'last_name', 'address_id', 'created_at', 'deleted_at')->orderBy('id', 'desc')->get());
-        $addresses = AddressNameResource::collection(Address::all());
+        try {
+
+            $employees = EmployeeResource::collection(Employee::with('address')->select('id', 'code', 'first_name', 'last_name', 'address_id', 'created_at', 'deleted_at')->orderBy('id', 'desc')->get());
+            $addresses = AddressNameResource::collection(Address::all());
+            
+        } catch (Exception $e) {
+            return inertia('Employees/Index', 
+                [
+                    $employees => [], 
+                    $addresses => []
+                ])->withErrors($e->getMessage());
+        }
 
         return inertia('Employees/Index', compact('employees', 'addresses'));
     }
@@ -40,8 +50,16 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $addresses = AddressNameResource::collection(Address::select('id', 'address_1', 'address_2', 'district', 'postcode', 'city')->get());
-        $roles = EmployeeRoleResource::collection(EmployeeRole::select('id', 'name')->get());
+        try {
+
+            $addresses = AddressNameResource::collection(Address::select('id', 'address_1', 'address_2', 'district', 'postcode', 'city')->get());
+            $roles = EmployeeRoleResource::collection(EmployeeRole::select('id', 'name')->get());
+
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('employees.show', $employee->id)
+                        ->withErrors($e->getMessage());            
+        }
 
         return inertia('Employees/Create', compact('addresses', 'roles'));
     }
@@ -90,8 +108,16 @@ class EmployeeController extends Controller
      */
     public function edit(Employee $employee)
     {
-        $addresses = AddressNameResource::collection(Address::select('id', 'address_1', 'address_2', 'district', 'postcode', 'city')->get());
-        $roles = EmployeeRoleResource::collection(EmployeeRole::select('id', 'name')->get());
+        try {
+
+            $addresses = AddressNameResource::collection(Address::select('id', 'address_1', 'address_2', 'district', 'postcode', 'city')->get());
+            $roles = EmployeeRoleResource::collection(EmployeeRole::select('id', 'name')->get());
+
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('employees.index')
+                        ->withErrors($e->getMessage());
+        }
 
         return inertia('Employees/Edit', compact('employee', 'addresses', 'roles'));
     }
