@@ -96,8 +96,16 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $employee->load('address', 'role');
-        return inertia('Employees/Show', compact('employee'));
+        try {
+            $employee->load('address', 'role');
+
+            return inertia('Employees/Show', compact('employee'));
+
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('employees.index')
+                        ->withErrors($e->getMessage());
+        }
     }
 
     /**
