@@ -55,7 +55,7 @@ class AddressListTest extends TestCase
     public function test_can_view_addresses()
     {
         $this->actingAs($this->user)
-            ->get('/addresses')
+            ->get(route('addresses.index'))
             ->assertInertia(fn (Assert $assert) => $assert
                 ->component('Addresses/Index')
                 ->has('addresses', 2)

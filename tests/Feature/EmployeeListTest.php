@@ -50,7 +50,7 @@ class EmployeeListTest extends TestCase
     public function test_can_view_employees()
     {
         $this->actingAs($this->user)
-            ->get('/employees')
+            ->get(route('employees.index'))
             ->assertInertia(fn (Assert $assert) => $assert
                 ->component('Employees/Index')
                 ->has('employees', 2)
