@@ -29,10 +29,6 @@ Route::get('/dashboard', function () {
     return redirect()->route('employees.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('addresses', [EmployeeController::class, 'index'])
-    ->name('addresses.index')
-    ->middleware('auth', 'verified');
-
 Route::name('employees.')->prefix('employees')->group(function () {
 
     Route::get('/', [EmployeeController::class, 'index'])
@@ -60,6 +56,38 @@ Route::name('employees.')->prefix('employees')->group(function () {
         ->middleware('auth', 'verified');
 
     Route::delete('/{employee}', [EmployeeController::class, 'destroy'])
+        ->name('destroy')
+        ->middleware('auth', 'verified');
+
+});
+
+Route::name('addresses.')->prefix('addresses')->group(function () {
+
+    Route::get('/', [AdressController::class, 'index'])
+    ->name('index')
+    ->middleware('auth', 'verified');
+
+    Route::get('/create', [AdressController::class, 'create'])
+        ->name('create')
+        ->middleware('auth', 'verified');
+
+    Route::post('', [AdressController::class, 'store'])
+        ->name('store')
+        ->middleware('auth', 'verified');
+
+    Route::get('/{address}/edit', [AdressController::class, 'edit'])
+        ->name('edit')
+        ->middleware('auth', 'verified');
+
+    Route::get('/{address}', [AdressController::class, 'show'])
+        ->name('show')
+        ->middleware('auth', 'verified');
+
+    Route::put('/{address}', [AdressController::class, 'update'])
+        ->name('update')
+        ->middleware('auth', 'verified');
+
+    Route::delete('/{address}', [AdressController::class, 'destroy'])
         ->name('destroy')
         ->middleware('auth', 'verified');
 
