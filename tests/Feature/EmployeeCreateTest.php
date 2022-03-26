@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Models\EmployeeRole;
+use App\Models\Employee;
 use App\Models\Address;
 use App\Models\User;
 use Tests\TestCase;
@@ -35,7 +36,7 @@ class EmployeeCreateTest extends TestCase
             ->assertInertia(fn (Assert $assert) => $assert->component('Employees/Create'));
     }
 
-    public function test_can_create_employees()
+    public function test_can_create_employee()
     {
         $address_id = Address::first()->id;
         $employee_role_id = EmployeeRole::first()->id;
@@ -52,17 +53,19 @@ class EmployeeCreateTest extends TestCase
         $response = $this->actingAs($this->user)
                             ->post(route('employees.store'), $employee);
 
+        $this->assertDatabaseHas(
+            'employees', $employee
+        );
+
+        $employee_id = Employee::whereCode($employee['code'])->first()->id;
+
         $response->assertStatus(302);
-        $response->assertRedirect(route('employees.show', 1));
+        $response->assertRedirect(route('employees.show', $employee_id));
 
         $response->assertSessionHas(
             [
                 'success' => 'Employee created.'
             ]
-        );
-
-        $this->assertDatabaseHas(
-            'employees', $employee
         );
     }
 }
