@@ -23,8 +23,6 @@ class AddressListTest extends TestCase
             'name'      =>  'Ruslan Ashaari',
             'email'     =>  'ruslan.ashaari@gmail.com',
         ]);
-
-        $addresses = Address::factory()->count(10)->create();
         
         Address::factory()->create([
             'address_1'     =>  '221B Becker Street',
@@ -71,7 +69,7 @@ class AddressListTest extends TestCase
                 )
                 ->has('addresses.1', fn (Assert $assert) => $assert
                     ->where('address_1', '221B Becker Street')
-                    ->where('address_2', '')
+                    ->where('address_2', null)
                     ->where('district', 'Becker')
                     ->where('postcode', null)
                     ->where('city', 'London')
