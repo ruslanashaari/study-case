@@ -57,7 +57,7 @@ class EmployeeController extends Controller
 
         } catch (Exception $e) {
             return redirect()
-                        ->route('employees.show', $employee->id)
+                        ->route('employees.index')
                         ->withErrors($e->getMessage());            
         }
 
@@ -81,7 +81,7 @@ class EmployeeController extends Controller
 
         } catch (Exception $e) {
             return redirect()
-                        ->route('employees.show', $employee->id)
+                        ->route('employees.create')
                         ->withErrors($e->getMessage());            
         }
 
