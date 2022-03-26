@@ -63,31 +63,31 @@ Route::name('employees.')->prefix('employees')->group(function () {
 
 Route::name('addresses.')->prefix('addresses')->group(function () {
 
-    Route::get('/', [AdressController::class, 'index'])
+    Route::get('/', [AddressController::class, 'index'])
     ->name('index')
     ->middleware('auth', 'verified');
 
-    Route::get('/create', [AdressController::class, 'create'])
+    Route::get('/create', [AddressController::class, 'create'])
         ->name('create')
         ->middleware('auth', 'verified');
 
-    Route::post('', [AdressController::class, 'store'])
+    Route::post('', [AddressController::class, 'store'])
         ->name('store')
         ->middleware('auth', 'verified');
 
-    Route::get('/{address}/edit', [AdressController::class, 'edit'])
+    Route::get('/{address}/edit', [AddressController::class, 'edit'])
         ->name('edit')
         ->middleware('auth', 'verified');
 
-    Route::get('/{address}', [AdressController::class, 'show'])
+    Route::get('/{address}', [AddressController::class, 'show'])
         ->name('show')
         ->middleware('auth', 'verified');
 
-    Route::put('/{address}', [AdressController::class, 'update'])
+    Route::put('/{address}', [AddressController::class, 'update'])
         ->name('update')
         ->middleware('auth', 'verified');
 
-    Route::delete('/{address}', [AdressController::class, 'destroy'])
+    Route::delete('/{address}', [AddressController::class, 'destroy'])
         ->name('destroy')
         ->middleware('auth', 'verified');
 
