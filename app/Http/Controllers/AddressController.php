@@ -21,7 +21,7 @@ class AddressController extends Controller
     {
         try {
 
-            $addresses = AddressNameResource::collection(Address::all());
+            $addresses = AddressNameResource::collection(Address::orderBy('id', 'desc')->get());
             
         } catch (Exception $e) {
             return inertia('Addresses/Index', 
