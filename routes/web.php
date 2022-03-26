@@ -25,34 +25,6 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('employees', [EmployeeController::class, 'index'])
-    ->name('employees.index')
-    ->middleware('auth', 'verified');
-
-Route::get('employees/create', [EmployeeController::class, 'create'])
-    ->name('employees.create')
-    ->middleware('auth', 'verified');
-
-Route::post('employees', [EmployeeController::class, 'store'])
-    ->name('employees.store')
-    ->middleware('auth', 'verified');
-
-Route::get('employees/{employee}/edit', [EmployeeController::class, 'edit'])
-    ->name('employees.edit')
-    ->middleware('auth', 'verified');
-
-Route::get('employees/{employee}', [EmployeeController::class, 'show'])
-    ->name('employees.show')
-    ->middleware('auth', 'verified');
-
-Route::put('employees/{employee}', [EmployeeController::class, 'update'])
-    ->name('employees.update')
-    ->middleware('auth', 'verified');
-
-Route::delete('employees/{employee}', [EmployeeController::class, 'destroy'])
-    ->name('employees.destroy')
-    ->middleware('auth', 'verified');
-
 Route::get('/dashboard', function () {
     return redirect()->route('employees.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -60,6 +32,38 @@ Route::get('/dashboard', function () {
 Route::get('addresses', [EmployeeController::class, 'index'])
     ->name('addresses.index')
     ->middleware('auth', 'verified');
+
+Route::name('employees.')->prefix('employees')->group(function () {
+
+    Route::get('/', [EmployeeController::class, 'index'])
+    ->name('index')
+    ->middleware('auth', 'verified');
+
+    Route::get('/create', [EmployeeController::class, 'create'])
+        ->name('create')
+        ->middleware('auth', 'verified');
+
+    Route::post('', [EmployeeController::class, 'store'])
+        ->name('store')
+        ->middleware('auth', 'verified');
+
+    Route::get('/{employee}/edit', [EmployeeController::class, 'edit'])
+        ->name('edit')
+        ->middleware('auth', 'verified');
+
+    Route::get('/{employee}', [EmployeeController::class, 'show'])
+        ->name('show')
+        ->middleware('auth', 'verified');
+
+    Route::put('/{employee}', [EmployeeController::class, 'update'])
+        ->name('update')
+        ->middleware('auth', 'verified');
+
+    Route::delete('/{employee}', [EmployeeController::class, 'destroy'])
+        ->name('destroy')
+        ->middleware('auth', 'verified');
+
+});
 
 
 require __DIR__.'/auth.php';
