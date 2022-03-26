@@ -32,4 +32,23 @@ class AddressController extends Controller
 
         return inertia('Addresses/Index', compact('addresses'));
     }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        try {
+
+            return inertia('Addresses/Create');
+
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('addresses.index')
+                        ->withErrors($e->getMessage());            
+        }
+
+    }
 }
