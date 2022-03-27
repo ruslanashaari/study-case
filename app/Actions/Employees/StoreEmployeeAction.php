@@ -10,9 +10,7 @@ class StoreEmployeeAction {
 
 	public function handle(array $payload)
 	{
-        $employee = Employee::create($payload);
-
-        return $employee;
+        return Employee::create($payload);
 	}
 
 }
