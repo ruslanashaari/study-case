@@ -50,8 +50,8 @@ class AddressCreateTest extends TestCase
             'addresses', $address
         );
 
-        $address_id = Address::whereAddress1($address['address_1'])
-                        ->whereAddress2($address['address_2'])
+        $address_id = Address::where('address_1', $address['address_1'])
+                        ->where('address_2', $address['address_2'])
                         ->whereDistrict($address['district'])
                         ->wherePostcode($address['postcode'])
                         ->whereCity($address['city'])
