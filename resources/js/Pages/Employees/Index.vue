@@ -106,7 +106,9 @@ import { Link } from '@inertiajs/inertia-vue3'
         },
         data() {
             return {
-                list: []
+                list: [],
+                trashed: 'active',
+                search: ''
             }
         },
         mounted() {
@@ -125,19 +127,19 @@ import { Link } from '@inertiajs/inertia-vue3'
               })
             },
             filterTrashedList(event) {
-                var option = event.target.value 
+                this.trashed = event.target.value 
 
-                this.filterList(option, '')
+                this.filterList()
             },
             filterAddressList(event) {
-                var search = event.target.value 
+                this.search = event.target.value 
 
-                this.filterList('', search)
+                this.filterList()
             },
-            filterList(trashed = '', search = '') {
+            filterList() {
                 var filters = {
-                    'trashed': trashed,
-                    'search': search
+                    'trashed': this.trashed,
+                    'search': this.search
                 }
 
                 window.axios
@@ -150,7 +152,7 @@ import { Link } from '@inertiajs/inertia-vue3'
 
                 })
                 .catch((errors) => {
-                  console.log(JSON.stringify(errors, null, 2))
+                  console.log(errors)
                 });
             }
         },
