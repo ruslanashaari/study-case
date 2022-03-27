@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use App\Models\Address;
 use App\Models\EmployeeRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,6 +22,8 @@ class EmployeeFactory extends Factory
             'employee_role_id'  => EmployeeRole::first()->id,
             'first_name'        => $this->faker->name(),
             'last_name'         => $this->faker->name(),
+            'created_at'        => Carbon::now()->toDateTimeString(),  
+            'updated_at'        => Carbon::now()->toDateTimeString(),  
         ];
     }
 }
