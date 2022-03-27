@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions;
+namespace App\Actions\Employees;
 
 use DB;
 use App\Models\Employee;
