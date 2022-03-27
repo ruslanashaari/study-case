@@ -17,13 +17,13 @@ class EmployeeResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'code' => $this->code,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'created_at' => $this->created_at->diffForHumans(),
-            'deleted_at' => $this->deleted_at,
-            'address'   =>  $this->address ? new AddressResource($this->address) : ''
+            'id'            => $this->id,
+            'code'          => $this->code,
+            'first_name'    => $this->first_name,
+            'last_name'     => $this->last_name,
+            'created_at'    => (is_null($this->created_at)) ? '' : $this->created_at->format('d-m-Y H:i'),
+            'deleted_at'    => $this->deleted_at,
+            'address'       => $this->address ? new AddressResource($this->address) : ''
         ];
     }
 }
