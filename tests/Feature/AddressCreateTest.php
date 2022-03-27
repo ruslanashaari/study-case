@@ -40,7 +40,7 @@ class AddressCreateTest extends TestCase
             'district'      =>  'Becker',
             'postcode'      =>  null,
             'city'          =>  'London',
-            'country_id'    =>  43,
+            'country_code'  =>  'MY',
         ];
 
         $response = $this->actingAs($this->user)
@@ -55,7 +55,7 @@ class AddressCreateTest extends TestCase
                         ->whereDistrict($address['district'])
                         ->wherePostcode($address['postcode'])
                         ->whereCity($address['city'])
-                        ->whereCountryId($address['country_id'])
+                        ->whereCountryCode($address['country_code'])
                         ->first()
                         ->id;
 

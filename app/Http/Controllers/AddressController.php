@@ -57,6 +57,7 @@ class AddressController extends Controller
     public function create()
     {
         try {
+            $countries = config('custom.countries');
 
             return inertia('Addresses/Create');
 
@@ -102,7 +103,9 @@ class AddressController extends Controller
     public function edit(Address $address)
     {
         try {
-            return inertia('Addresses/Edit', compact('address'));
+            $countries = config('custom.countries');
+
+            return inertia('Addresses/Edit', compact('address', 'countries'));
 
         } catch (Exception $e) {
             return redirect()

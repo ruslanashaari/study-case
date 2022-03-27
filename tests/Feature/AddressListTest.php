@@ -30,7 +30,7 @@ class AddressListTest extends TestCase
             'district'      =>  'Becker',
             'postcode'      =>  null,
             'city'          =>  'London',
-            'country_id'    =>  43,
+            'country_code'  =>  'MY',
         ]);
 
         Address::factory()->create([
@@ -39,7 +39,7 @@ class AddressListTest extends TestCase
             'district'      =>  'Surrey',
             'postcode'      =>  null,
             'city'          =>  'Hogwarts',
-            'country_id'    =>  43,
+            'country_code'  =>  'MY',
         ]);
 
         EmployeeRole::factory()->count(5)->create();
@@ -63,7 +63,7 @@ class AddressListTest extends TestCase
                     ->where('district', 'Surrey')
                     ->where('postcode', null)
                     ->where('city', 'Hogwarts')
-                    ->where('country_id', 43)
+                    ->where('country_code', 'MY')
                     ->where('deleted_at', null)
                     ->etc()
                 )
@@ -73,7 +73,7 @@ class AddressListTest extends TestCase
                     ->where('district', 'Becker')
                     ->where('postcode', null)
                     ->where('city', 'London')
-                    ->where('country_id', 43)
+                    ->where('country_code', 'MY')
                     ->where('deleted_at', null)
                     ->etc()
                 )

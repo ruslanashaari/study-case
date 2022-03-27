@@ -20,7 +20,7 @@ class CreateAddressesTable extends Migration
             $table->string('district');
             $table->string('postcode')->nullable();
             $table->string('city');
-            $table->integer('country_id');
+            $table->string('country_code');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -34,7 +34,7 @@ class StoreAddressRequest extends FormRequest
             'district'      =>  'required',
             'postcode'      =>  '',
             'city'          =>  'required',
-            'country_id'    =>  'integer',
+            'country_code'  =>  'required',
         ];
     }
 }
