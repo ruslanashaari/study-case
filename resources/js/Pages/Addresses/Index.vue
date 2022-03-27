@@ -85,6 +85,9 @@ import { Link } from '@inertiajs/inertia-vue3'
             delete(address) {
               this.$inertia.delete(this.route('addresses.destroy', address.id), {
                 onBefore: () => confirm('Confirmation to delete ' + address.full_address + '?'),
+                onError: errors => {
+                    this.$page.props.flash.error = errors[0]
+                },
               })
             },
         },
