@@ -20,13 +20,7 @@ import { Link } from '@inertiajs/inertia-vue3'
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="items-center mb-12">
                             <div class="m-6">
-                                <label class="ml-4">Filter Records:</label>
-                                <select class="mt-1 ml-4 rounded-lg">
-                                    <option value="active"> Don't Show Deleted Records </option>
-                                    <option value="both"> Show With Deleted Records </option>
-                                    <option value="deleted"> Show Deleted Records Only </option>
-                                </select>
-                                <Link class="float-right inline-flex items-center h-8 px-4 m-2 text-sm text-green-100 transition-colors duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800 float-right" :href="this.route('addresses.create')" tabindex="-1" as="button">Create Address</Link>
+                                <Link class="m-6 float-right inline-flex items-center h-8 px-4 text-sm text-green-100 transition-colors duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800 float-right" :href="this.route('addresses.create')" tabindex="-1" as="button">Create Address</Link>
                             </div>       
                         </div>
 
