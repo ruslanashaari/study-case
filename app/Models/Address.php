@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Employee;
 
 class Address extends Model
 {
@@ -20,5 +21,10 @@ class Address extends Model
                 . $this->district
                 . $this->postcode ?? ''
                 . $this->city;
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class, 'id', 'address_id');
     }
 }
