@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Address;
 use Inertia\Inertia;
+use Exception;
 use DB;
 
 class AddressController extends Controller
@@ -153,8 +154,13 @@ class AddressController extends Controller
     {
         try {
             DB::beginTransaction();
-
             $address_name = $address->full_address;
+
+            $address->load('employee');
+
+            if (!is_null($address->employee)) {
+                throw new Exception('This address has employee assigned to it');       
+            }
 
             $action->handle($address);
             DB::commit();
