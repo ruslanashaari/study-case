@@ -46,7 +46,11 @@ class AddressController extends Controller
      */
     public function show(Address $address)
     {
-        return inertia('Addresses/Show', compact('address'));
+        $countries  = (config('custom.countries'));
+        $country_id = array_search($address->country_code, array_column($countries, 'code'));
+        $country    = $countries[$country_id]['name'];
+
+        return inertia('Addresses/Show', compact('address', 'country'));
     }
 
     /**
@@ -59,7 +63,7 @@ class AddressController extends Controller
         try {
             $countries = config('custom.countries');
 
-            return inertia('Addresses/Create');
+            return inertia('Addresses/Create', compact('countries'));
 
         } catch (Exception $e) {
             return redirect()
