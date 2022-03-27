@@ -26,7 +26,7 @@ import { Link } from '@inertiajs/inertia-vue3'
                                     <option value="both"> Show With Deleted Records </option>
                                     <option value="deleted"> Show Deleted Records Only </option>
                                 </select>
-                                <Link class="float-right inline-flex items-center h-8 px-4 m-2 text-sm text-green-100 transition-colors duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800 float-right" :href="this.route('addresses.create')" tabindex="-1" as="button">Create Adress</Link>
+                                <Link class="float-right inline-flex items-center h-8 px-4 m-2 text-sm text-green-100 transition-colors duration-150 bg-green-700 rounded-lg focus:shadow-outline hover:bg-green-800 float-right" :href="this.route('addresses.create')" tabindex="-1" as="button">Create Address</Link>
                             </div>       
                         </div>
 
