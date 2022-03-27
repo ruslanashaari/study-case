@@ -82,6 +82,7 @@ class EmployeeController extends Controller
         } catch (Exception $e) {
             return redirect()
                         ->route('employees.create')
+                        ->withInput()
                         ->withErrors($e->getMessage());            
         }
 
@@ -147,7 +148,8 @@ class EmployeeController extends Controller
             DB::commit();
         } catch (Exception $e) {
             return redirect()
-                        ->route('employees.show', $employee->id)
+                        ->route('employees.edit', $employee->id)
+                        ->withInput()
                         ->withErrors($e->getMessage());
         }
 
