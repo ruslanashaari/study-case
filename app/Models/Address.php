@@ -10,6 +10,7 @@ class Address extends Model
     use HasFactory;
 
     protected $appends = ['full_address'];
+    protected $guarded = ['id'];
 
     public function getFullAddressAttribute()
     {
