@@ -57,7 +57,7 @@ class AddressEditTest extends TestCase
         );
 
         $this->assertDatabaseHas(
-            'addresses', $new_addresses
+            'addresses', $new_address
         );
     }
 }
