@@ -8,9 +8,7 @@ class StoreAddressAction {
 
 	public function handle(array $payload)
 	{
-        $address = Address::create($payload);
-
-        return $address;
+        return Address::create($payload);
 	}
 
 }
