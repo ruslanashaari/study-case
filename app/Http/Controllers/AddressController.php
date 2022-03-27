@@ -80,4 +80,47 @@ class AddressController extends Controller
 
         return redirect()->route('addresses.show', $address->id)->with('success', 'Address created.');
     }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Address $address)
+    {
+        try {
+            return inertia('Addresses/Edit', compact('address'));
+
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('addresses.index')
+                        ->withErrors($e->getMessage());
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateAddressRequest $request, Address $address, UpdateAddressAction $action)
+    {
+        try {
+            DB::beginTransaction();
+
+            $action->handle($request->validated(), $address);
+
+            DB::commit();
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('addresses.edit', $address->id)
+                        ->withInput()
+                        ->withErrors($e->getMessage());
+        }
+
+        return redirect()->route('addresses.show', $address->id)->with('success', 'Address record updated.');
+    }
 }
