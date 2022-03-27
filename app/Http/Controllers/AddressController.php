@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Addresses\UpdateAddressAction;
+use App\Actions\Addresses\DeleteAddressAction;
 use App\Actions\Addresses\StoreAddressAction;
 use App\Http\Resources\AddressNameResource;
 use App\Http\Requests\UpdateAddressRequest;
@@ -122,5 +123,29 @@ class AddressController extends Controller
         }
 
         return redirect()->route('addresses.show', $address->id)->with('success', 'Address record updated.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Address $address, DeleteAddressAction $action)
+    {
+        try {
+            DB::beginTransaction();
+
+            $address_name = $address->full_address;
+
+            $action->handle($address);
+            DB::commit();
+        } catch (Exception $e) {
+            return redirect()
+                        ->route('addresses.index')
+                        ->withErrors($e->getMessage());
+        }
+
+        return redirect()->route('addresses.index')->with('success', $address_name . ' record deleted.');   
     }
 }
