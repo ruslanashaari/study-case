@@ -21,7 +21,7 @@ import { Link } from '@inertiajs/inertia-vue3'
                         <div class="items-center mb-12">
                             <div class="m-6">
                                 <label class="ml-4">Filter Address:</label>
-                                <select class="mt-1 ml-4 rounded-lg">
+                                <select class="mt-1 ml-4 rounded-lg" @change="filterAddressList($event)">
                                     <option v-for="address in addresses" :value="address.id">{{ address.full_address }}</option>
                                 </select>
                                 <label class="ml-4">Filter Records:</label>
@@ -128,6 +128,11 @@ import { Link } from '@inertiajs/inertia-vue3'
                 var option = event.target.value 
 
                 this.filterList(option, '')
+            },
+            filterAddressList(event) {
+                var search = event.target.value 
+
+                this.filterList('', search)
             },
             filterList(trashed = '', search = '') {
                 var filters = {

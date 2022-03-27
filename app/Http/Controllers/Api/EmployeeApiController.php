@@ -11,10 +11,15 @@ class EmployeeApiController extends Controller
 {
     public function list(Request $request)
     {
+        // dd($request->all());
         try {
             $query =  Employee::with('address')
                         ->select('id', 'code', 'first_name', 'last_name', 'address_id', 'created_at', 'deleted_at')
                         ->orderBy('id', 'desc');
+
+            if ($request->has('search')) {
+                $query->whereAddressId($request->search);
+            }
 
             if ($request->trashed === 'both') {
                 $query->withTrashed();
