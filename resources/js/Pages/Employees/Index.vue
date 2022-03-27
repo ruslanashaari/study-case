@@ -25,7 +25,7 @@ import { Link } from '@inertiajs/inertia-vue3'
                                     <option v-for="address in addresses" :value="address.id">{{ address.full_address }}</option>
                                 </select>
                                 <label class="ml-4">Filter Records:</label>
-                                <select class="mt-1 ml-4 rounded-lg">
+                                <select class="mt-1 ml-4 rounded-lg" @change="filterTrashedList($event)">
                                     <option value="active"> Don't Show Deleted Records </option>
                                     <option value="both"> Show With Deleted Records </option>
                                     <option value="deleted"> Show Deleted Records Only </option>
@@ -62,7 +62,7 @@ import { Link } from '@inertiajs/inertia-vue3'
                                 </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200 divide-solid">
-                                <tr v-for="employee in employees">
+                                <tr v-for="employee in list">
                                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                         {{ employee.id }}
                                     </td>
@@ -106,20 +106,12 @@ import { Link } from '@inertiajs/inertia-vue3'
         },
         data() {
             return {
-              // form: {
-              //   search: this.filters.search,
-              //   trashed: this.filters.trashed,
-              // },
+                list: []
             }
         },
-        // watch: {
-        //     form: {
-        //       deep: true,
-        //       handler: throttle(function () {
-        //         this.$inertia.get('/organizations', pickBy(this.form), { preserveState: true })
-        //       }, 150),
-        //     },
-        // },
+        mounted() {
+            this.list = this.employees
+        },
         methods: {
             reset() {
               this.form = mapValues(this.form, () => null)
@@ -127,8 +119,35 @@ import { Link } from '@inertiajs/inertia-vue3'
             delete(employee) {
               this.$inertia.delete(this.route('employees.destroy', employee.id), {
                 onBefore: () => confirm('Confirmation to delete ' + employee.first_name + ' ' + employee.last_name + '?'),
+                onSuccess: (success) => {
+                    this.filterList()
+                }
               })
             },
+            filterTrashedList(event) {
+                var option = event.target.value 
+
+                this.filterList(option, '')
+            },
+            filterList(trashed = '', search = '') {
+                var filters = {
+                    'trashed': trashed,
+                    'search': search
+                }
+
+                window.axios
+                .post(route('api.employees.list'), filters)
+                .then((response) => {
+
+                    if (response.data.status == 200) {
+                        this.list = response.data.data
+                    }
+
+                })
+                .catch((errors) => {
+                  console.log(JSON.stringify(errors, null, 2))
+                });
+            }
         },
     }
 </script>

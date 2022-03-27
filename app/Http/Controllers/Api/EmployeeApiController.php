@@ -12,10 +12,19 @@ class EmployeeApiController extends Controller
     public function list(Request $request)
     {
         try {
-            $data =  Employee::with('address')
+            $query =  Employee::with('address')
                         ->select('id', 'code', 'first_name', 'last_name', 'address_id', 'created_at', 'deleted_at')
-                        ->orderBy('id', 'desc')
-                        ->get();
+                        ->orderBy('id', 'desc');
+
+            if ($request->trashed === 'both') {
+                $query->withTrashed();
+            }
+
+            if ($request->trashed === 'deleted') {
+                $query->onlyTrashed();
+            }
+
+            $data = $query->get();
 
         } catch (Exception $e) {
             return [
